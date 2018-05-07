@@ -2,19 +2,29 @@ Object.prototype.method = function(name,fn){
   if(!(fn instanceof Function)){
     console.warn('注意 ！ 与' + name + ' 对应的值不是函数。');
   }
+
   if(this[name] || this.prototype[name]){
-    console.warn(name + ' 已经存在，请勿覆盖该属性/方法');
+    console.warn(name + ' 已经存在，请勿覆盖该属性或方法');
   }else{
     this.prototype[name] = fn;
   }
 }
 
-Object.prototype.addMethods = function(obj){
-  for(var k in obj){
-    this.method(k, obj[k]);
+Object.prototype.addMethods = function(o){
+  console.log(o);
+  for(var k in o){
+    console.log(k)
+    this.method(k, o[k]);
   }
 }
-console.log(Array)
+
+Object.defineProperty(Object.prototype,'method',{
+  enumerable:false
+})
+Object.defineProperty(Object.prototype,'addMethods',{
+  enumerable:false
+})
+
 Array.addMethods({
   //将某个数组成员置顶，并且其他成员后退一位
   toHead:function(index){
